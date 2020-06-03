@@ -43,7 +43,7 @@ ORGS="ecp-veloc/kvtree   \
 
 if [ $1 == "clone" ]; then
     for i in $ORGS; do
-        if $PRINT_NAME; then
+        if [ $PRINT_NAME ]; then
             echo -e "\n$i:"
         fi
         git clone $REPOHOST/$i
@@ -69,7 +69,7 @@ if [ $1 == "archive" ]; then
 fi
 
 for i in $COMPONENTS; do
-    if $PRINT_NAME; then
+    if [ $PRINT_NAME ]; then
         echo -e "\n$i:"
     fi
     cd $i
