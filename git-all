@@ -1,0 +1,61 @@
+#!/bin/bash
+
+REPOHOST=https://github.com
+
+if [ $# -lt 2 ]; then
+    echo “Usage: $0 COMMAND [options]”
+    echo “”
+    echo “Run COMMAND against each component”
+    exit
+fi
+
+PRINT_NAME=0
+if [ $1 == “-s” ]; then
+    # assume caller is script
+    # do not print extraneous names
+    PRINT_NAME=0
+    shift
+fi
+
+COMPONENTS=kvtree   \
+           axl      \
+           spath    \
+           filo     \
+           shuffile \
+           redset   \
+           er       \
+           rankstr  \
+           lwgrp    \
+           dtcmp    \
+           scr
+
+ORGS=ecp-veloc/kvtree   \
+     ecp-veloc/axl      \
+     ecp-veloc/spath    \
+     ecp-veloc/filo     \
+     ecp-veloc/shuffile \
+     ecp-veloc/redset   \
+     ecp-veloc/er       \
+     ecp-veloc/rankstr  \
+     hpc/lwgrp          \
+     hpc/dtcmp          \
+     llnl/scr
+
+if [ $1 == “clone” ]; then
+    for i in $ORGS; do
+        if $PRINT_NAME; then
+            echo -e “\n$i:”
+        fi
+        git clone $REPOHOST/$i
+    done
+    exit
+fi
+
+for i in $COMPONENTS; do
+    if $PRINT_NAME; then
+        echo -e “\n$i:”
+    fi
+    cd $i
+    git $@
+    cd ..
+done
