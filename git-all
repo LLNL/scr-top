@@ -1,23 +1,23 @@
-#!/bin/bash
+#!/bin/bash -x
 
 REPOHOST=https://github.com
 
-if [ $# -lt 2 ]; then
-    echo “Usage: $0 COMMAND [options]”
-    echo “”
-    echo “Run COMMAND against each component”
+if [ $# -lt 1 ]; then
+    echo "Usage: $0 COMMAND [options]"
+    echo ""
+    echo "Run COMMAND against each component"
     exit
 fi
 
 PRINT_NAME=0
-if [ $1 == “-s” ]; then
+if [ $1 == "-s" ]; then
     # assume caller is script
     # do not print extraneous names
-    PRINT_NAME=0
+    PRINT_NAME=1
     shift
 fi
 
-COMPONENTS=kvtree   \
+COMPONENTS="kvtree   \
            axl      \
            spath    \
            filo     \
@@ -27,9 +27,9 @@ COMPONENTS=kvtree   \
            rankstr  \
            lwgrp    \
            dtcmp    \
-           scr
+           scr"
 
-ORGS=ecp-veloc/kvtree   \
+ORGS="ecp-veloc/kvtree   \
      ecp-veloc/axl      \
      ecp-veloc/spath    \
      ecp-veloc/filo     \
@@ -39,12 +39,12 @@ ORGS=ecp-veloc/kvtree   \
      ecp-veloc/rankstr  \
      hpc/lwgrp          \
      hpc/dtcmp          \
-     llnl/scr
+     llnl/scr"
 
-if [ $1 == “clone” ]; then
+if [ $1 == "clone" ]; then
     for i in $ORGS; do
         if $PRINT_NAME; then
-            echo -e “\n$i:”
+            echo -e "\n$i:"
         fi
         git clone $REPOHOST/$i
     done
@@ -53,7 +53,7 @@ fi
 
 for i in $COMPONENTS; do
     if $PRINT_NAME; then
-        echo -e “\n$i:”
+        echo -e "\n$i:"
     fi
     cd $i
     git $@
