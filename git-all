@@ -51,6 +51,23 @@ if [ $1 == "clone" ]; then
     exit
 fi
 
+if [ $1 == "archive" ]; then
+    for i in $COMPONENTS; do
+        if [ $PRINT_NAME ]; then
+            echo -e "\n$i:"
+        fi
+        cd $i
+	TAG=`git describe --tags $(git rev-list --tags --max-count=1)`
+        git archive --format=tar.gz --prefix=$i $TAG | gzip > $i-$TAG.tar.gz
+        mv $i-$TAG.tar.gz ../
+	cd ..
+    done
+
+    # last TAG is from SCR
+    tar -czf scr-top-$TAG.tgz *.tar.gz
+    exit
+fi
+
 for i in $COMPONENTS; do
     if $PRINT_NAME; then
         echo -e "\n$i:"

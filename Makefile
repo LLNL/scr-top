@@ -10,27 +10,27 @@ COMPONENTS=kvtree \
            dtcmp \
            scr
 
+TGZ = $(COMPONENTS:=.tgz)
+
 all:
-	echo "Possible targets:"
-	echo "dist: one tarball of latest TAGGED VERSIONS"
-	echo "dev:  git clone each repo"
-	echo "package: tar of all sources"
+	@echo "Possible targets:"
+	@echo "dist: one tarball of latest TAGGED VERSIONS"
+	@echo "dev:  git clone each repo"
+	@echo "pack: tar of all sources"
 
-dist: dl pack
-
-dl: clone
-	# a) hard code tarball path
-	# b) use git to checkout last release? and tar up
+dist: clone
+	./git-all archive
 
 clone:
-	./git-all clone
+	@if [ ! -d scr ]; then \
+	./git-all clone;\
+	fi
 
-pack:
-	tar -czf scr-top.tgz $COMPONENTS
-	# make magic to list comp.tgz 
-	
+pack: clone
+	@tar -czf scr-top-dev.tgz $(COMPONENTS) $(shell git ls-files)
+
 dev: clone
 	mkdir build install
 
-pckage: clone
-	tar -czf scr-top.tgz $COMPONENTS
+clean:
+	rm *.tar.gz
