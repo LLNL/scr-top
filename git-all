@@ -64,7 +64,9 @@ if [ $1 == "archive" ]; then
     done
 
     # last TAG is from SCR
-    tar -czf scr-top-$TAG.tgz *.tar.gz
+    # last in COMPONENTS variable
+    tar -czf scr-top-$TAG.tgz *.tar.gz `git ls-files`
+    echo -e "\n Created: scr-top-$TAG.tgz\nunpack with tar -xzf scr-top-$TAG.tgz"
     exit
 fi
 
