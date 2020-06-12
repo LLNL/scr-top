@@ -18,6 +18,7 @@ clean:   remove .tar.gz files
 
 Building all the components can be done with:
 ```
+make clone
 make build
 cd build/
 cmake ../
