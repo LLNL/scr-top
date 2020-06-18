@@ -8,19 +8,32 @@ The project uses a combination of Makefiles and CMake to build SCR and all its c
 From the top-level directory, users have the following `make` options:
 
 ```
-clone:   download all git repositories
-dist:    create a single tarball of latest TAGGED VERSIONS
-dist-build: build from distribution
-build:   print build command (must be run manually)
-pack:    tar up all repos
-clean:   remove .tar.gz files
+clone:      download all git repositories
+
+dist:       create a single tarball of latest TAGGED VERSIONS
+pack:       tar up all repos
+pack-lite:  tar up all repos without git files
+unpack:     untar components
+
+build:      print build command (must be run manually)
 ```
+
+### Building
 
 Building all the components can be done with:
 ```
 make clone
 make build
 cd build/
+cmake ../
+make
+```
+
+If you building from one of the packaged scr-top tarballs (from `dist`, `pack`, `pack-lite`), after you untar the scr-top-xxx.tgz you can build with:
+```
+make unpack
+make build
+cd build
 cmake ../
 make
 ```
