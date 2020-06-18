@@ -15,12 +15,14 @@ TGZ = $(COMPONENTS:=.tgz)
 all:
 	@echo "Possible targets:"
 	@echo ""
-	@echo "clone:   download all git repositories"
-	@echo "dist:    create a single tarball of latest TAGGED VERSIONS"
-	@echo "dist-build: build from distribution"
-	@echo "build:   print build command (must be run manually)"
-	@echo "pack:    tar up all repos"
-	@echo "clean:   remove .tar.gz files"
+	@echo "clone:      download all git repositories"
+	@echo ""
+	@echo "dist:       create a single tarball of latest TAGGED VERSIONS"
+	@echo "pack:       tar up all repos"
+	@echo "pack-lite:  tar up all repos without git files"
+	@echo "unpack:     untar components"
+	@echo ""
+	@echo "build:      print build command (must be run manually)"
 
 clone:
 	@if [ ! -d scr ]; then \
@@ -33,21 +35,24 @@ clone:
 dist: clone
 	./git-all archive
 
-dist-build: $(COMPONENTS)
-	@$(MAKE) build
+pack: clone
+	@tar -czf scr-top-dev.tgz $(COMPONENTS) $(shell git ls-files)
+
+pack-lite: clone
+	./git-all packlite
+
+unpack: $(COMPONENTS)
 
 $(COMPONENTS):
 	@if [ -d scr ]; then \
 	echo "ERROR: source directories already exist"\
 	exit;\
 	fi
+	@echo "Unpacking $@"
 	@mkdir $@
-	@tar -xzf $@-*.tar.gz -C $@
+	@tar -xzf archive/$@-*.tar.gz -C $@
 
-pack: clone
-	@tar -czf scr-top-dev.tgz $(COMPONENTS) $(shell git ls-files)
-
-.PHONY: build clean
+.PHONY: build
 
 build:
 	@if [ ! -d build ]; then \
@@ -58,6 +63,3 @@ build:
 	@echo "By default, everything is installed to ./install"
 	@echo "change install directory using:"
 	@echo "     cmake ../ -DCMAKE_INSTALL_PREFIX=/path/ && make"
-
-clean:
-	rm *.tar.gz

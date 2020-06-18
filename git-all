@@ -75,6 +75,25 @@ if [ $1 == "archive" ]; then
     exit
 fi
 
+## WARING: copy-paste of archive loop above
+if [ $1 == "packlite" ]; then
+    ARCH_LIST=""
+    for i in $COMPONENTS; do
+        if [ $PRINT_NAME ]; then
+            echo "Packing up $i"
+        fi
+        cd $i
+        git archive --format=tar.gz HEAD | gzip > $i-lite.tar.gz
+        mv $i-lite.tar.gz ../$ARCH_DIR
+        ARCH_LIST+="$ARCH_DIR/$i-lite.tar.gz "
+	cd ..
+    done
+
+    tar -czf scr-top-packlite.tgz $ARCH_LIST `git ls-files`
+    echo -e "\n Created: scr-top-packlite.tgz\nunpack with tar -xzf scr-top-packlite.tgz"
+    exit
+fi
+
 for i in $COMPONENTS; do
     if [ $PRINT_NAME ]; then
         echo -e "\n$i:"
