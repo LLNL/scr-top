@@ -51,21 +51,26 @@ if [ $1 == "clone" ]; then
     exit
 fi
 
+ARCH_DIR="archive"
+mkdir -p $ARCH_DIR
+
 if [ $1 == "archive" ]; then
+    ARCH_LIST=""
     for i in $COMPONENTS; do
-        if [ $PRINT_NAME ]; then
-            echo -e "\n$i:"
-        fi
         cd $i
 	TAG=`git describe --tags $(git rev-list --tags --max-count=1)`
-        git archive --format=tar.gz --prefix=$i $TAG | gzip > $i-$TAG.tar.gz
-        mv $i-$TAG.tar.gz ../
+        if [ $PRINT_NAME ]; then
+            echo "Archiving $i version $TAG"
+        fi
+        git archive --format=tar.gz --prefix=$i $TAG | gzip > $i-$TAG.tar.gz 2> /dev/null
+        mv $i-$TAG.tar.gz ../$ARCH_DIR
+        ARCH_LIST+="$ARCH_DIR/$i-$TAG.tar.gz "
 	cd ..
     done
 
     # last TAG is from SCR
     # last in COMPONENTS variable
-    tar -czf scr-top-$TAG.tgz *.tar.gz `git ls-files`
+    tar -czf scr-top-$TAG.tgz $ARCH_LIST `git ls-files`
     echo -e "\n Created: scr-top-$TAG.tgz\nunpack with tar -xzf scr-top-$TAG.tgz"
     exit
 fi
