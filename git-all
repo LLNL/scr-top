@@ -62,7 +62,7 @@ if [ $1 == "archive" ]; then
         if [ $PRINT_NAME ]; then
             echo "Archiving $i version $TAG"
         fi
-        git archive --format=tar.gz --prefix=$i $TAG | gzip > $i-$TAG.tar.gz 2> /dev/null
+        git archive --format=tar --prefix=$i $TAG | gzip > $i-$TAG.tar.gz 2> /dev/null
         mv $i-$TAG.tar.gz ../$ARCH_DIR
         ARCH_LIST+="$ARCH_DIR/$i-$TAG.tar.gz "
 	cd ..
@@ -83,7 +83,7 @@ if [ $1 == "packlite" ]; then
             echo "Packing up $i"
         fi
         cd $i
-        git archive --format=tar.gz HEAD | gzip > $i-lite.tar.gz
+        git archive --format=tar HEAD | gzip > $i-lite.tar.gz
         mv $i-lite.tar.gz ../$ARCH_DIR
         ARCH_LIST+="$ARCH_DIR/$i-lite.tar.gz "
 	cd ..
