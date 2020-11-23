@@ -1,7 +1,6 @@
 COMPONENTS=kvtree \
            axl    \
            spath  \
-           filo   \
            shuffile \
            redset \
            er     \
