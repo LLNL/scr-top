@@ -6,6 +6,8 @@ if [ $# -lt 1 ]; then
     echo "Usage: $0 COMMAND [options]"
     echo ""
     echo "Run COMMAND against each component"
+    echo ""
+    echo "Special commands: archive, packlite, sincerelease"
     exit
 fi
 
@@ -93,6 +95,21 @@ if [ $1 == "packlite" ]; then
     exit
 fi
 
+if [ $1 == "sincerelease" ]; then
+    for i in $COMPONENTS; do
+        cd $i
+        echo "$i"
+        echo -n "  Release: "
+        git describe --tags --abbrev=0
+        echo -n "  Commits: "
+        git rev-list $(git describe --tags --abbrev=0)..HEAD --count
+        cd ..
+    done
+    exit
+fi
+
+## NON-speical commands
+## Run command against all repos
 for i in $COMPONENTS; do
     if [ $PRINT_NAME ]; then
         echo -e "\n$i:"
