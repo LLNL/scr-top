@@ -33,7 +33,6 @@ COMPONENTS="kvtree   \
 ORGS="ecp-veloc/kvtree   \
      ecp-veloc/axl      \
      ecp-veloc/spath    \
-     ecp-veloc/filo     \
      ecp-veloc/shuffile \
      ecp-veloc/redset   \
      ecp-veloc/er       \

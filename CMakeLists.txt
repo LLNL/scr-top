@@ -85,4 +85,4 @@ SET(WITH_SCR_PREFIX ${CMAKE_INSTALL_PREFIX}/scr CACHE PATH "")
 
 # some projects require a "make install" command to work,
 # so define at least a basic INSTALL function
-INSTALL(FILE NOTICE DESTINATION share/scr)
+INSTALL(FILES NOTICE DESTINATION share/scr)
