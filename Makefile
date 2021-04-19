@@ -48,8 +48,7 @@ $(COMPONENTS):
 	exit;\
 	fi
 	@echo "Unpacking $@"
-	@mkdir $@
-	@tar -xzf archive/$@-*.tar.gz -C $@
+	@tar -xzf archive/$@-*.tar.gz
 
 .PHONY: build
 
