@@ -51,11 +51,10 @@ if [ $1 == "clone" ]; then
     exit
 fi
 
-ARCH_DIR="archive"
+ARCH_DIR="scr-archive"
 mkdir -p $ARCH_DIR
 
 if [ $1 == "archive" ]; then
-    ARCH_LIST=""
     for i in $COMPONENTS; do
         cd $i
 	TAG=`git describe --tags $(git rev-list --tags --max-count=1)`
@@ -63,33 +62,42 @@ if [ $1 == "archive" ]; then
             echo "Archiving $i version $TAG"
         fi
         git archive --format=tar --prefix=$i/ $TAG | gzip > $i-$TAG.tar.gz 2> /dev/null
-        mv $i-$TAG.tar.gz ../$ARCH_DIR
-        ARCH_LIST+="$ARCH_DIR/$i-$TAG.tar.gz "
-	cd ..
+        cd ..
+
+        cd $ARCH_DIR
+        tar -zxf ../$i/$i-$TAG.tar.gz
+        cd ..
     done
 
     # last TAG is from SCR
     # last in COMPONENTS variable
-    tar -czf scr-top-$TAG.tgz $ARCH_LIST `git ls-files`
+    mv $ARCH_DIR scr-top-$TAG
+    cp `git ls-files` scr-top-$TAG
+    tar -czf scr-top-$TAG.tgz scr-top-$TAG
+    rm -rf scr-top-$TAG
     echo -e "\n Created: scr-top-$TAG.tgz\nunpack with tar -xzf scr-top-$TAG.tgz"
     exit
 fi
 
 ## WARING: copy-paste of archive loop above
 if [ $1 == "packlite" ]; then
-    ARCH_LIST=""
     for i in $COMPONENTS; do
+        cd $i
         if [ $PRINT_NAME ]; then
             echo "Packing up $i"
         fi
-        cd $i
         git archive --format=tar --prefix=$i/ HEAD | gzip > $i-lite.tar.gz
-        mv $i-lite.tar.gz ../$ARCH_DIR
-        ARCH_LIST+="$ARCH_DIR/$i-lite.tar.gz "
 	cd ..
+
+        cd $ARCH_DIR
+        tar -zxf ../$i/$i-lite.tar.gz
+        cd ..
     done
 
-    tar -czf scr-top-packlite.tgz $ARCH_LIST `git ls-files`
+    mv $ARCH_DIR scr-top-packlite
+    cp `git ls-files` scr-top-packlite
+    tar -czf scr-top-packlite.tgz scr-top-packlite
+    rm -rf scr-top-packlite
     echo -e "\n Created: scr-top-packlite.tgz\nunpack with tar -xzf scr-top-packlite.tgz"
     exit
 fi
