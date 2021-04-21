@@ -72,7 +72,7 @@ if [ $1 == "archive" ]; then
     # last TAG is from SCR
     # last in COMPONENTS variable
     mv $ARCH_DIR scr-top-$TAG
-    cp `git ls-files` scr-top-$TAG
+    cp CMakeLists.txt NOTICE scr-top-$TAG
     tar -czf scr-top-$TAG.tgz scr-top-$TAG
     rm -rf scr-top-$TAG
     echo -e "\n Created: scr-top-$TAG.tgz\nunpack with tar -xzf scr-top-$TAG.tgz"
@@ -95,7 +95,7 @@ if [ $1 == "packlite" ]; then
     done
 
     mv $ARCH_DIR scr-top-packlite
-    cp `git ls-files` scr-top-packlite
+    cp CMakeLists.txt NOTICE scr-top-packlite
     tar -czf scr-top-packlite.tgz scr-top-packlite
     rm -rf scr-top-packlite
     echo -e "\n Created: scr-top-packlite.tgz\nunpack with tar -xzf scr-top-packlite.tgz"
