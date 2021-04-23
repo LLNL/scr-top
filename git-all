@@ -52,10 +52,31 @@ if [ $1 == "clone" ]; then
 fi
 
 ARCH_DIR="scr-archive"
+rm -rf $ARCH_DIR
 mkdir -p $ARCH_DIR
 
 if [ $1 == "archive" ]; then
+    # for a dist tarball, use the dist tarballs of lwgrp and dtcmp
+    cd $ARCH_DIR
+        rm -rf lwgrp
+        wget https://github.com/LLNL/lwgrp/releases/download/v1.0.3/lwgrp-1.0.3.tar.gz
+        tar -zxf lwgrp-1.0.3.tar.gz
+        mv lwgrp-1.0.3 lwgrp
+        rm -f lwgrp-1.0.3.tar.gz
+
+        rm -rf dtcmp
+        wget https://github.com/LLNL/dtcmp/releases/download/v1.1.2/dtcmp-1.1.2.tar.gz
+        tar -zxf dtcmp-1.1.2.tar.gz
+        mv dtcmp-1.1.2 dtcmp
+        rm -f dtcmp-1.1.2.tar.gz
+    cd ..
+
     for i in $COMPONENTS; do
+        # skip lwgrp and dtcmp since those were handled above
+        if [ "$i" == "lwgrp" -o "$i" == "dtcmp" ] ; then
+            continue
+        fi
+
         cd $i
 	TAG=`git describe --tags $(git rev-list --tags --max-count=1)`
         if [ $PRINT_NAME ]; then
