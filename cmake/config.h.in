@@ -1,0 +1,60 @@
+// System Specific
+#cmakedefine HAVE_BYTESWAP_H
+
+// File Locking
+#define KVTREE_FILE_LOCK_USE_@KVTREE_FILE_LOCK@
+
+#cmakedefine HAVE_DAEMON
+#cmakedefine HAVE_LIBCPPR
+#cmakedefine HAVE_DATAWARP
+#cmakedefine HAVE_BBAPI
+#cmakedefine HAVE_BBAPI_FALLBACK
+
+// Flush ASYNC API
+#define AXL_FLUSH_ASYNC_@AXL_ASYNC_API@
+
+// Optional Libs
+#cmakedefine HAVE_LIBDTCMP
+#cmakedefine HAVE_LIBYOGRT
+#cmakedefine HAVE_LIBMYSQLCLIENT
+
+// Machine Specific Libs
+#cmakedefine HAVE_LIBPMIX
+#cmakedefine HAVE_LIBCPPR
+
+// Build Options
+#cmakedefine HAVE_FORTRAN_API
+
+// SCR-Specific Configured Paths
+#define SCR_CACHE_BASE "@SCR_CACHE_BASE@"
+#define SCR_CNTL_BASE "@SCR_CNTL_BASE@"
+#define SCR_CONFIG_FILE "@SCR_CONFIG_FILE@"
+
+// Logging
+#define SCR_LOG_ENABLE (@SCR_LOG_ENABLE@)
+#define SCR_LOG_TXT_ENABLE (@SCR_LOG_TXT_ENABLE@)
+#define SCR_LOG_SYSLOG_ENABLE (@SCR_LOG_SYSLOG_ENABLE@)
+#define SCR_LOG_SYSLOG_PREFIX "@SCR_LOG_SYSLOG_PREFIX@"
+#define SCR_LOG_SYSLOG_FACILITY @SCR_LOG_SYSLOG_FACILITY@
+#define SCR_LOG_SYSLOG_LEVEL @SCR_LOG_SYSLOG_LEVEL@
+
+// File Locking
+#define SCR_FILE_LOCK_USE_@SCR_FILE_LOCK@
+
+// Resource Manager
+#define SCR_RESOURCE_MANAGER_@SCR_RESOURCE_MANAGER@
+
+// Flush ASYNC API
+#define SCR_FLUSH_ASYNC_@SCR_ASYNC_API@
+
+/* Special BGQ stuffs */
+#cmakedefine SCR_BGQ
+
+#define X_BINDIR "@CMAKE_INSTALL_FULL_BINDIR@"
+#define X_DATADIR "@CMAKE_INSTALL_FULL_DATADIR@"
+#define X_INCLUDEDIR "@CMAKE_INSTALL_FULL_INCLUDEDIR@"
+#define X_LIBDIR "@CMAKE_INSTALL_FULL_LIBDIR@"
+
+/* PDSH */
+#define PDSH_EXE "@PDSH_EXE@"
+#define DSHBAK_EXE "@DSHBAK_EXE@"
