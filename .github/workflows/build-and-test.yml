@@ -1,0 +1,86 @@
+name: build-and-test
+
+# Inspired by mfem
+# https://github.com/mfem/mfem/blob/master/.github/workflows/builds-and-tests.yml
+
+permissions:
+  actions: write
+
+on:
+  push:
+    branches:
+      - main
+  pull-request:
+
+
+jobs:
+  build-and-test:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-10.15]
+        target: [Debug, Release]
+        mpi: [seq, par]
+        # 'include' allows us to:
+        # - Add a variable to all jobs without creating a new matrix dimension.
+        #   Codecov is defined that way.
+        include:
+          - target: Debug
+            codecov: NO
+          - target: Release
+            codecov: YES
+          - os: ubuntu-latest
+            target: Release
+            codecov: NO
+            mpi: par
+          - os: ubuntu-18.04
+            target: Release
+            codecov: NO
+            mpi: par
+    name: ${{ matrix.os }}-${{ matrix.target }}-${{ matrix.mpi }}
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+
+    - name: checkout scr-top
+      uses: actions/checkout@v2
+      with:
+        path: scr-top
+        fetch-depth: 0
+
+    # Only get MPI if defined for the job.
+    # TODO: It would be nice to have only one step, e.g. with a dedicated
+    # action, but I (@adrienbernede) don't see how at the moment.
+    - name: get MPI (Linux)
+      if: matrix.mpi == 'par' && matrix.os == 'ubuntu-latest'
+      run: |
+        sudo apt-get install mpich libmpich-dev
+
+    - name: get lcov (Linux)
+      if: matrix.codecov == 'YES' && matrix.os == 'ubuntu-latest'
+      run: |
+        sudo apt-get install lcov
+
+    - name: Set up Homebrew
+      if: ( matrix.mpi == 'par' || matrix.codecov == 'YES' ) && matrix.os == 'macos-10.15'
+      uses: Homebrew/actions/setup-homebrew@c4aafe8c4620bf08883dd4679c374f11e73329d3
+
+    - name: get MPI (MacOS)
+      if: matrix.mpi == 'par' && matrix.os == 'macos-10.15'
+      run: |
+        export HOMEBREW_NO_INSTALL_CLEANUP=1
+        brew install openmpi
+
+    - name: get MPI (MacOS)
+      if: matrix.codecov == 'YES' && matrix.os == 'macos-10.15'
+      run: |
+        export HOMEBREW_NO_INSTALL_CLEANUP=1
+        brew install lcov
+
+    - name: build all
+      run: |
+        make build
+        cd build
+        cmake ../ -DCMAKE_BUILD_TYPE=${{ matrix.target }}
+        make
+        make test
