@@ -37,7 +37,7 @@ jobs:
             target: Release
             codecov: NO
             mpi: par
-          - os: ubuntu-18.04
+          - os: ubuntu-latest
             target: Release
             codecov: NO
             mpi: par
