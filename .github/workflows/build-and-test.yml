@@ -66,6 +66,11 @@ jobs:
       run: |
         sudo apt-get install lcov
 
+    - name: get pdsh (Linux)
+      if: matrix.os == 'ubuntu-latest'
+      run: |
+        sudo apt-get install pdsh
+
     - name: Set up Homebrew
       if: ( matrix.mpi == 'par' || matrix.codecov == 'YES' ) && matrix.os == 'macos-10.15'
       uses: Homebrew/actions/setup-homebrew@c4aafe8c4620bf08883dd4679c374f11e73329d3
@@ -81,6 +86,12 @@ jobs:
       run: |
         export HOMEBREW_NO_INSTALL_CLEANUP=1
         brew install lcov
+
+    - name: get pdsh (MacOS)
+      if: matrix.os == 'macos-10.15'
+      run: |
+        export HOMEBREW_NO_INSTALL_CLEANUP=1
+        brew install pdsh
 
     - name: build all
       run: |
