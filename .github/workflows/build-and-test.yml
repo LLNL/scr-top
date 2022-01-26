@@ -79,6 +79,7 @@ jobs:
 
     - name: build all
       run: |
+        cd scr-top
         make build
         cd build
         cmake ../ -DCMAKE_BUILD_TYPE=${{ matrix.target }}
