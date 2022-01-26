@@ -79,6 +79,7 @@ jobs:
 
     - name: build all
       run: |
+        make clone
         cd scr-top
         make build
         cd build
