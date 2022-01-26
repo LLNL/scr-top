@@ -19,7 +19,12 @@ jobs:
       matrix:
         os: [ubuntu-latest, macos-10.15]
         target: [Debug, Release]
-        mpi: [seq, par]
+        # CMAKE_BUILD_TYPE values go here
+        #
+        mpi: [par]
+        # additional option: seq
+        #
+        #
         # 'include' allows us to:
         # - Add a variable to all jobs without creating a new matrix dimension.
         #   Codecov is defined that way.
