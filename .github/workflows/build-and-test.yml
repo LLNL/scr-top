@@ -102,37 +102,42 @@ jobs:
         cmake ../ -DCMAKE_BUILD_TYPE=${{ matrix.target }}
         make
 
-    - name: test all
+    - name: test kvtree
       run: |
-        cd scr-top/build/
-        cd kvtree-prefix/src/kvtree-build/
+        cd scr-top/build/kvtree-prefix/src/kvtree-build/
         make test
-        cd ../../..
 
-        cd rankstr-prefix/src/rankstr-build/
+    - name: test rankstr
+      run: |
+        cd scr-top/build/rankstr-prefix/src/rankstr-build/
         make test
-        cd ../../..
 
-        cd redset-prefix/src/redset-build/
+    - name: test redset
+      run: |
+        cd scr-top/build/redset-prefix/src/redset-build/
         make test
-        cd ../../..
 
-        cd shuffile-prefix/src/shuffile-build/
+    - name: test shuffile
+      run: |
+        cd scr-top/build/shuffile-prefix/src/shuffile-build/
         make test
-        cd ../../..
 
-        cd er-prefix/src/er-build/
+    - name: test er
+      run: |
+        cd scr-top/build/er-prefix/src/er-build/
         make test
-        cd ../../..
 
-        cd axl-prefix/src/axl-build/
+    - name: test axl
+      run: |
+        cd scr-top/build/axl-prefix/src/axl-build/
         make test
-        cd ../../..
 
-        cd spath-prefix/src/spath-build/
+    - name: test spath
+      run: |
+        cd scr-top/build/spath-prefix/src/spath-build/
         make test
-        cd ../../..
 
-        cd scr-prefix/src/scr-build/
+    - name: test scr
+      run: |
+        cd scr-top/build/scr-prefix/src/scr-build/
         make test
-        cd ../../..
