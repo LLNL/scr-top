@@ -101,4 +101,51 @@ jobs:
         cd build
         cmake ../ -DCMAKE_BUILD_TYPE=${{ matrix.target }}
         make
+
+    - name: test kvtree
+      run: |
+        cd kvtree-prefix/src/kvtree-build/
         make test
+        cd ../../..
+
+    - name: test rankstr
+      run: |
+        cd rankstr-prefix/src/rankstr-build/
+        make test
+        cd ../../..
+
+    - name: test redset
+      run: |
+        cd redset-prefix/src/redset-build/
+        make test
+        cd ../../..
+
+    - name: test shuffile
+      run: |
+        cd shuffile-prefix/src/shuffile-build/
+        make test
+        cd ../../..
+
+    - name: test er
+      run: |
+        cd er-prefix/src/er-build/
+        make test
+        cd ../../..
+
+    - name: test axl
+      run: |
+        cd axl-prefix/src/axl-build/
+        make test
+        cd ../../..
+
+    - name: test spath
+      run: |
+        cd spath-prefix/src/spath-build/
+        make test
+        cd ../../..
+
+    - name: test scr
+      run: |
+        cd scr-prefix/src/scr-build/
+        make test
+        cd ../../..
