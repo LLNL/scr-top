@@ -105,39 +105,39 @@ jobs:
     - name: test kvtree
       run: |
         cd scr-top/build/kvtree-prefix/src/kvtree-build/
-        make test
+        make check
 
     - name: test rankstr
       run: |
         cd scr-top/build/rankstr-prefix/src/rankstr-build/
-        make test
+        make check
 
     - name: test redset
       run: |
         cd scr-top/build/redset-prefix/src/redset-build/
-        make test
+        make check
 
     - name: test shuffile
       run: |
         cd scr-top/build/shuffile-prefix/src/shuffile-build/
-        make test
+        make check
 
     - name: test er
       run: |
         cd scr-top/build/er-prefix/src/er-build/
-        make test
+        make check
 
     - name: test axl
       run: |
         cd scr-top/build/axl-prefix/src/axl-build/
-        make test
+        make check
 
     - name: test spath
       run: |
         cd scr-top/build/spath-prefix/src/spath-build/
-        make test
+        make check
 
     - name: test scr
       run: |
         cd scr-top/build/scr-prefix/src/scr-build/
-        make test
+        make check
