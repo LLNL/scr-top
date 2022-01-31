@@ -54,7 +54,7 @@ jobs:
         fetch-depth: 0
 
     - name: get deps scr-top
-      uses: ecp-veloc/github-actions/get-scr-os-deps
+      uses: ecp-veloc/github-actions/get-scr-os-deps@main
       with:
         os: ${{ matrix.os }}
         mpi: ${{ matrix.mpi }}
