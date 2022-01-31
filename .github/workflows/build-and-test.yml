@@ -104,6 +104,8 @@ jobs:
 
     - name: test kvtree
       run: |
+        pwd
+        cd /home/runner/work/scr-top/scr-top/scr-top/build/
         cd kvtree-prefix/src/kvtree-build/
         make test
         cd ../../..
