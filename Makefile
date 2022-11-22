@@ -15,6 +15,7 @@ all:
 	@echo "Possible targets:"
 	@echo ""
 	@echo "clone:      download all git repositories"
+	@echo "spack:      download a spack instance"
 	@echo ""
 	@echo "dist:       create a single tarball of latest TAGGED VERSIONS"
 	@echo "pack:       tar up all repos"
@@ -29,6 +30,11 @@ clone:
 	else \
 	echo "ERROR: can't clone: source directories already exist" \
 	exit;\
+	fi
+
+spack:
+	@if [ ! -d spack ]; then \
+	git clone https://github.com/spack/spack \
 	fi
 
 dist: clone
