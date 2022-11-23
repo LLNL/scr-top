@@ -30,7 +30,7 @@ fi
 BRANCHNAME=scr-release-$(date "+%Y%m%d")
 
 cd spack || exit
-if ! git ls-remote --exit-code ecpv &> /dev/null; then
+if ! git ls-remote --exit-code ecp-veloc &> /dev/null; then
     echo "Adding ecp-veloc remote to spack repo"
     git remote add ecp-veloc git@github.com:ecp-veloc/spack
 fi
@@ -65,7 +65,7 @@ for c in "$@"; do
     bin/spack fetch "$c"
 
     echo -e "\n*** Git Operations ***"
-    # ASSUME local user is configured with access to ecpv remote
+    # ASSUME local user is configured with access to ecp-veloc remote
     git diff
     git commit -am "new release for $c"
 done
