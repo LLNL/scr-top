@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #
-COMPONENTS="kvtree   \
+COMPONENTS="kvtree  \
            axl      \
            spath    \
            shuffile \
