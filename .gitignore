@@ -9,6 +9,7 @@ rankstr/
 lwgrp/
 dtcmp/
 scr/
+spack/
 
 *.tar.gz
 *.tgz
