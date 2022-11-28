@@ -80,6 +80,7 @@ jobs:
 
     - name: test spack
       run: |
+        cd scr-top
         make spack
         cd spack
         ./bin/spack compiler find
