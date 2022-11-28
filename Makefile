@@ -34,7 +34,7 @@ clone:
 
 spack:
 	@if [ ! -d spack ]; then \
-	git clone https://github.com/spack/spack \
+	git clone https://github.com/spack/spack; \
 	fi
 
 dist: clone
