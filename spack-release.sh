@@ -30,7 +30,7 @@ fi
 BRANCHNAME=scr-release-$(date "+%Y%m%d")
 
 cd spack || exit
-if ! git ls-remote --exit-code ecp-veloc &> /dev/null; then
+if ! git ls-remote --exit-code ecp-veloc > /dev/null; then
     echo "Adding ecp-veloc remote to spack repo"
     git remote add ecp-veloc git@github.com:ecp-veloc/spack
 fi
@@ -74,6 +74,6 @@ git push ecp-veloc "$BRANCHNAME"
 echo -e "\n*** Spack versions hash updates complete ***"
 
 echo -e "\n*** Script complete. Don't forget to: ***"
-echo "- run spack style"
+echo "- run spack style (in virtual env)"
 echo "- update the depends_on versions for component dependencies"
 echo "- create spack PR: https://github.com/ecp-veloc/spack"
