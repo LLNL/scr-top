@@ -84,4 +84,6 @@ jobs:
         make spack
         cd spack
         ./bin/spack compiler find
-        ./bin/spack spec scr@develop
+        ./bin/spack external find
+        ./bin/spack spec scr \~libyogrt
+        ./bin/spack spec scr@develop \~libyogrt
