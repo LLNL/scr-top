@@ -12,7 +12,7 @@ if [ $# -lt 1 ]; then
 fi
 
 PRINT_NAME=0
-if [ $1 == "-s" ]; then
+if [ "$1" == "-s" ]; then
     # assume caller is script
     # do not print extraneous names
     PRINT_NAME=1
@@ -41,12 +41,12 @@ ORGS="ecp-veloc/kvtree   \
      hpc/dtcmp          \
      llnl/scr"
 
-if [ $1 == "clone" ]; then
+if [ "$1" == "clone" ]; then
     for i in $ORGS; do
         if [ $PRINT_NAME ]; then
             echo -e "\n$i:"
         fi
-        git clone $REPOHOST/$i
+        git clone $REPOHOST/"$i"
     done
     exit
 fi
@@ -54,43 +54,43 @@ fi
 ARCH_DIR="scr-archive"
 mkdir -p $ARCH_DIR
 
-if [ $1 == "archive" ]; then
+if [ "$1" == "archive" ]; then
     for i in $COMPONENTS; do
-        cd $i
+        cd "$i" || exit
 	TAG=`git describe --tags $(git rev-list --tags --max-count=1)`
         if [ $PRINT_NAME ]; then
             echo "Archiving $i version $TAG"
         fi
-        git archive --format=tar --prefix=$i/ $TAG | gzip > $i-$TAG.tar.gz 2> /dev/null
+        git archive --format=tar --prefix="$i"/ "$TAG" | gzip > "$i"-"$TAG".tar.gz 2> /dev/null
         cd ..
 
-        cd $ARCH_DIR
-        tar -zxf ../$i/$i-$TAG.tar.gz
+        cd $ARCH_DIR || echo "FAILURE IN ARCH DIR"
+        tar -zxf ../"$i"/"$i"-"$TAG".tar.gz
         cd ..
     done
 
     # last TAG is from SCR
     # last in COMPONENTS variable
-    mv $ARCH_DIR scr-top-$TAG
-    cp CMakeLists.txt NOTICE scr-top-$TAG
-    tar -czf scr-top-$TAG.tgz scr-top-$TAG
-    rm -rf scr-top-$TAG
+    mv $ARCH_DIR scr-top-"$TAG"
+    cp CMakeLists.txt NOTICE scr-top-"$TAG"
+    tar -czf scr-top-"$TAG".tgz scr-top-"$TAG"
+    rm -rf scr-top-"$TAG"
     echo -e "\n Created: scr-top-$TAG.tgz\nunpack with tar -xzf scr-top-$TAG.tgz"
     exit
 fi
 
 ## WARING: copy-paste of archive loop above
-if [ $1 == "packlite" ]; then
+if [ "$1" == "packlite" ]; then
     for i in $COMPONENTS; do
-        cd $i
+        cd "$i" || exit
         if [ $PRINT_NAME ]; then
             echo "Packing up $i"
         fi
-        git archive --format=tar --prefix=$i/ HEAD | gzip > $i-lite.tar.gz
+        git archive --format=tar --prefix="$i"/ HEAD | gzip > "$i"-lite.tar.gz
 	cd ..
 
-        cd $ARCH_DIR
-        tar -zxf ../$i/$i-lite.tar.gz
+        cd $ARCH_DIR || echo "FAILURE IN ARCH DIR"
+        tar -zxf ../"$i"/"$i"-lite.tar.gz
         cd ..
     done
 
@@ -102,14 +102,14 @@ if [ $1 == "packlite" ]; then
     exit
 fi
 
-if [ $1 == "sincerelease" ]; then
+if [ "$1" == "sincerelease" ]; then
     for i in $COMPONENTS; do
-        cd $i
+        cd "$i" || exit
         echo "$i"
         echo -n "  Release: "
         git describe --tags --abbrev=0
         echo -n "  Commits: "
-        git rev-list $(git describe --tags --abbrev=0)..HEAD --count
+        git rev-list "$(git describe --tags --abbrev=0)"..HEAD --count
         cd ..
     done
     exit
@@ -117,11 +117,12 @@ fi
 
 ## NON-speical commands
 ## Run command against all repos
+echo "Running command: $@"
 for i in $COMPONENTS; do
     if [ $PRINT_NAME ]; then
         echo -e "\n$i:"
     fi
-    cd $i
-    git $@
+    cd "$i" || exit
+    git "$@"
     cd ..
 done
