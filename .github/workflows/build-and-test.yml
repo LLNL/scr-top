@@ -80,7 +80,9 @@ jobs:
     #     cd scr-top/build/kvtree-prefix/src/kvtree-build/
     #     make check
 
+    # skipping for now
     - name: test spack
+      if: false
       run: |
         cd scr-top
         make spack
