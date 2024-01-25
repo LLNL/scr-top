@@ -60,7 +60,7 @@ jobs:
       with:
         os: ${{ matrix.os }}
         mpi: ${{ matrix.mpi }}
-
+        autotools: true
 
     # Only get MPI if defined for the job.
     # TODO: It would be nice to have only one step, e.g. with a dedicated
@@ -68,6 +68,11 @@ jobs:
 
     - name: build all
       run: |
+        which gcc
+        export CC=`which gcc`
+        which g++
+        which gfortran
+        which mpicc
         cd scr-top
         make clone
         make build
