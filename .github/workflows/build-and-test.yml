@@ -68,16 +68,11 @@ jobs:
 
     - name: build all
       run: |
-        which gcc
-        export CC=`which gcc`
-        which g++
-        which gfortran
-        which mpicc
         cd scr-top
         make clone
         make build
         cd build
-        cmake ../ -DCMAKE_BUILD_TYPE=${{ matrix.target }}
+        cmake ../ -DCMAKE_BUILD_TYPE=${{ matrix.target }} -DENABLE_FORTRAN=OFF
         make
 
     # - name: test kvtree
