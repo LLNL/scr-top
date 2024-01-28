@@ -49,11 +49,13 @@ jobs:
     - name: spec and build scr default
       if: inputs.target == 'default'
       run: |
+        cd scr-top/spack
         ./bin/spack spec scr \~libyogrt
         ./bin/spack install scr \~libyogrt
 
     - name: spec and build scr version
       if: inputs.target != 'default'
       run: |
+        cd scr-top/spack
         ./bin/spack spec scr@{{ inputs.target }} \~libyogrt
         ./bin/spack install scr@{{ inputs.target }} \~libyogrt
