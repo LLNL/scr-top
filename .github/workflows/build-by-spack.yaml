@@ -1,0 +1,59 @@
+name: build-by-spack
+
+# Inspired by mfem
+# https://github.com/mfem/mfem/blob/master/.github/workflows/builds-and-tests.yml
+
+permissions:
+  actions: write
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+  schedule:
+    - cron: 0 0 * * 0
+
+
+jobs:
+  build-by-spack:
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+        target: [default, develop]
+        # spack scr@VERSION goes here
+        #
+        mpi: [par]
+        # additional option: seq
+        #
+    name: ${{ matrix.os }}-${{ matrix.target }}-${{ matrix.mpi }}
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+
+    - name: checkout scr-top
+      uses: actions/checkout@v4
+      with:
+        path: scr-top
+        fetch-depth: 0
+
+    - name: build spack
+      run: |
+        cd scr-top
+        make spack
+        cd spack
+        ./bin/spack compiler find
+        ./bin/spack external find
+
+    - name: spec and build scr default
+      if: inputs.target == 'default'
+      run: |
+        ./bin/spack spec scr \~libyogrt
+        ./bin/spack install scr \~libyogrt
+
+    - name: spec and build scr version
+      if: inputs.target != 'default'
+      run: |
+        ./bin/spack spec scr@{{ inputs.target }} \~libyogrt
+        ./bin/spack install scr@{{ inputs.target }} \~libyogrt
