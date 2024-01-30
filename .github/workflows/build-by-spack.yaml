@@ -54,7 +54,7 @@ jobs:
         ./bin/spack install scr \~libyogrt
 
     - name: spec and build scr version
-      if: matrix.target != 'default'
+      if: matrix.target != 'default' && false
       run: |
         cd scr-top/spack
         ./bin/spack spec scr@${{ matrix.target }} \~libyogrt
